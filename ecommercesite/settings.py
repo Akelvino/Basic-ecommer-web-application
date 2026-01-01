@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +121,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'ddlsda1r4',
+    'API_KEY': '682225113114139',
+    'API_SECRET': 'MbqL8osGezHLDvzv2pTspsLg9Xw',
+}
