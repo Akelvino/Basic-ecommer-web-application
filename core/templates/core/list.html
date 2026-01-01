@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}My site{% endblock title %}
 {% block content %}
-<h1 class="text-9xl text-red-700">This is the home page</h1>
+<div>
+    <aside class="">
+        <h2 class="font-bold">Categories</h2>
+        <ul>
+            {% for category in categories %}
+                <li>{{ category.name }}</li>
+            {% endfor %}
+        </ul>
+    </aside>
+</div>
 {% endblock %}
