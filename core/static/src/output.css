@@ -27,7 +27,10 @@
     --text-5xl--line-height: 1;
     --text-9xl: 8rem;
     --text-9xl--line-height: 1;
+    --font-weight-semibold: 600;
     --font-weight-bold: 700;
+    --radius-sm: 0.25rem;
+    --radius-xl: 0.75rem;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -205,6 +208,9 @@
   .mx-auto {
     margin-inline: auto;
   }
+  .mt-3 {
+    margin-top: calc(var(--spacing) * 3);
+  }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
   }
@@ -228,6 +234,9 @@
   }
   .h-full {
     height: 100%;
+  }
+  .max-h-\[80vh\] {
+    max-height: 80vh;
   }
   .max-h-screen {
     max-height: 100vh;
@@ -268,6 +277,15 @@
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  .rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+  .rounded-xl {
+    border-radius: var(--radius-xl);
+  }
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -278,11 +296,17 @@
   .bg-green-400 {
     background-color: var(--color-green-400);
   }
+  .bg-indigo-600 {
+    background-color: var(--color-indigo-600);
+  }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
+  }
+  .py-2 {
+    padding-block: calc(var(--spacing) * 2);
   }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
@@ -301,6 +325,10 @@
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
   }
+  .font-semibold {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
   .text-black {
     color: var(--color-black);
   }
@@ -309,6 +337,9 @@
   }
   .text-indigo-600 {
     color: var(--color-indigo-600);
+  }
+  .text-white {
+    color: var(--color-white);
   }
   .underline {
     text-decoration-line: underline;

@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}{{ product.name }}{% endblock title %}
 {% block content %}
-    <h1>{{ product.name }}</h1>
+    <div>
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="max-h-[80vh]">
+        <h3 class="font-semibold">{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p class="text-indigo-600">${{product.price}}</p>
+        <form action="">
+            {% csrf_token %}
+            <button class="bg-indigo-600 text-white text-center px-4 py-2 rounded-xl mt-3">Add to cart</button>
+        </form>
+    </div>
 {% endblock %}

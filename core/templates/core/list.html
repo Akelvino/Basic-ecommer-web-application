@@ -5,24 +5,32 @@
         <h2 class="font-bold">Categories</h2>
         <ul>
             {% for category in categories %}
-               <a href="{% url 'product-list-by-category' category.slug %}"> <li>{{ category.name }}</li></a>
+            <a href="{% url 'product-list-by-category' category.slug %}">
+                <li>{{ category.name }}</li>
+            </a>
             {% endfor %}
         </ul>
     </aside>
 
     <div class="w-3/4 px-4">
         {% if category %}
-            <h2 class="font-bold pb-5">{{ category.name }}</h2>
+        <h2 class="font-bold pb-5">{{ category.name }}</h2>
         {% else %}
-            <h2 class="font-bold pb-5">All Products</h2>
+        <h2 class="font-bold pb-5">All Products</h2>
         {% endif %}
 
         <div class="grid grid-cols-3 gap-4">
             {% for product in products %}
-            <div>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            </div>
+            <a href="{% url 'product-detail' product.id product.slug %}">
+                <div>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3 class="font-semibold">{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p class="text-indigo-600">${{product.price}}</p>
+                </div>
+            </a>
             {% endfor %}
+
         </div>
     </div>
 </div>
