@@ -10,6 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+    cloud_name = 'ddlsda1r4',
+    api_key = '682225113114139',
+    api_secret = 'MbqL8osGezHLDvzv2pTspsLg9Xw'
+)
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,8 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
-    'cloudinary',
     'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -122,8 +133,12 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'ddlsda1r4',
-    'API_KEY': '682225113114139',
-    'API_SECRET': 'MbqL8osGezHLDvzv2pTspsLg9Xw',
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
 }
+

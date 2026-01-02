@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
-    <aside class="">
+<div class="flex">
+    <aside class="w-1/4">
         <h2 class="font-bold">Categories</h2>
         <ul>
             {% for category in categories %}
-                <li>{{ category.name }}</li>
+               <a href="{% url 'product-list-by-category' category.slug %}"> <li>{{ category.name }}</li></a>
             {% endfor %}
         </ul>
     </aside>
+
+    <div class="w-3/4 px-4">
+        {% if category %}
+            <h2 class="font-bold pb-5">{{ category.name }}</h2>
+        {% else %}
+            <h2 class="font-bold pb-5">All Products</h2>
+        {% endif %}
+
+        <div class="grid grid-cols-3 gap-4">
+            {% for product in products %}
+            <div>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}
