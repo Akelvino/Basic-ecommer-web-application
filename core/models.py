@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from cloudinary.models import CloudinaryField
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -29,3 +30,10 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return reverse('products:product_details', kwargs={'id':self.id, 'slug':self.slug})
+
+
+class Cart(models.Model):
+    pass
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name = 'items', on_delete=models.CASCADE)
