@@ -6,7 +6,7 @@
         <h3 class="font-semibold">{{ product.name }}</h3>
         <p>{{ product.description }}</p>
         <p class="text-indigo-600">${{product.price}}</p>
-        <form action="">
+        <form action="{% url 'cart_add' product.id %}" method="POST" id="add-to-cart-form">
             {% csrf_token %}
             <button class="bg-indigo-600 text-white text-center px-4 py-2 rounded-xl mt-3">Add to cart</button>
         </form>

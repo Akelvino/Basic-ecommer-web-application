@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product, Cart, CartItem
-from django.views.decorators import require_POST
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 def product_list(request, category_slug=None):
@@ -55,4 +55,4 @@ def cart_detail(request):
      if cart_id:
          cart = get_object_or_404(Cart, id=cart_id)
          
-     return render(request, 'core/detail.html')
+     return render(request, 'core/cart-detail.html')
