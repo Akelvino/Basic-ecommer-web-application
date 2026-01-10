@@ -23,7 +23,7 @@
             {% for product in products %}
             <a href="{% url 'product-detail' product.id product.slug %}">
                 <div>
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="max-h-[80vh]">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     <h3 class="font-semibold">{{ product.name }}</h3>
                     <p>{{ product.description }}</p>
                     <p class="text-indigo-600">${{product.price}}</p>
