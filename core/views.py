@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product, Cart, CartItem
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 def product_list(request, category_slug=None):
@@ -24,35 +26,39 @@ def product_detail(request, id, slug):
 
 @require_POST
 def cart_add(request, product_id):
-    cart_id = request.session.get('card_id')
+    cart_id = request.session.get('cart_id')
 
     if cart_id:
-        try:
-            cart = Cart.objects.get(id=cart_id)
-        except Cart.DoesNotExist:
-            cart = Cart.objects.create()
-        else:
-            cart = Cart.objects.create()
-            request.session['cart_id'] = cart_id
+        cart = Cart.objects.filter(id=cart_id).first()
+    else:
+        cart = None
 
-        product = get_object_or_404(Product, id=product_id)
+    if not cart:
+        cart = Cart.objects.create()
+        request.session['cart_id'] = cart.id
 
-        cart_item , created = CartItem.objects.create(cart=cart, product=product)
+    product = get_object_or_404(Product, id=product_id)
+
+    cart_item, created = CartItem.objects.get_or_create(
+        cart=cart,
+        product=product
+    )
 
     if not created:
-        cart_item.quality +=1
-    
+        cart_item.quantity += 1
+
     cart_item.save()
 
-    responce_data ={
-        'success':True,
-        'message':f"Added {product.name} to cart"
-    }
+    return JsonResponse({
+        'success': True,
+        'message': f'Added {product.name} to cart'
+    })
 
 def cart_detail(request):
-     cart_id = request.session.get('card_id')
-     cart = None
-     if cart_id:
-         cart = get_object_or_404(Cart, id=cart_id)
-         
-     return render(request, 'core/cart-detail.html')
+    cart_id = request.session.get('cart_id')
+    cart = None
+
+    if cart_id:
+        cart = get_object_or_404(Cart, id=cart_id)
+
+    return render(request, 'core/cart-detail.html', {'cart': cart})

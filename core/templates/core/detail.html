@@ -9,6 +9,36 @@
         <form action="{% url 'cart_add' product.id %}" method="POST" id="add-to-cart-form">
             {% csrf_token %}
             <button class="bg-indigo-600 text-white text-center px-4 py-2 rounded-xl mt-3">Add to cart</button>
+            <p id="message"></p>
         </form>
     </div>
+
+    <script>
+        document.getElementById('add-to-cart-form').addEventListener('submit', function(event){
+            event.preventDefault();
+            const form = event.target;
+            const url = form.action;
+            const formData = new FormData(form)
+
+            fetch(url,{
+                method :'POST',
+                headers:{
+                    'X-CSRFToken':formData.get('csrfmiddlewaretoken'),
+                    'Accept': 'application/json'
+                },
+                body:formData
+            })
+            .then(response => response.json())
+            .then(data =>{
+                const messageElement = document.getElementById('message');
+
+                if (data.success){
+                    messageElement.textContent = data.message;
+                }else{
+                    messageElement.textContent = data.message || 'Failed to add product';
+                    messageElement.className = 'text-red-600 mt-2';   
+                }
+            })
+        })
+    </script>
 {% endblock %}

@@ -1,4 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h3>This is the cart page</h3>
+    <h3 class="bg-red-200">My Cart</h3>
+
+    {% if cart %}
+        <ul>
+            {% for item in cart.items.all %}
+                <li>
+                    <img src="{{ item.product.image.url }}" alt="{{item.product.name}}" class="w-24">
+                    {{item.product.name}}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
