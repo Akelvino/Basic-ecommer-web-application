@@ -36,7 +36,7 @@ class Cart(models.Model):
      created = models.DateTimeField(auto_now_add=True)
 
      def get_total_price(self):
-         return sum(items.get_total_price() for item in self.items.all())
+         return sum(item.get_total_price() for item in self.items.all())
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name = 'items', on_delete=models.CASCADE)
