@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Product, Cart, CartItem
+from .models import Category, Product, Cart, CartItem, Order, OrderItem
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-
+from .forms import OrderCreateForm
 # Create your views here.
 def product_list(request, category_slug=None):
     category = None
@@ -71,3 +71,41 @@ def cart_remove(request, product_id):
      item.delete()
 
      return redirect('cart-details')
+
+
+
+def order_created(request):
+    cart_id = request.session.get('cart_id')
+    card = None
+
+    if cart_id:
+        cart = Cart.objects.get(id=cart_id)
+
+        if not cart or not cart.item.exists():
+            return redirect('cart-detail')
+
+    
+    if request.method == 'POST':
+        form = OrderCreateForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.save()
+
+            for item in cart.items.all():
+                OrderItem.objects.create(
+                    order = order,
+                    product = item.product,
+                    price = item.product.price,
+                    quantity = item.quantity
+                )
+                cart.delete()
+                del request.session['cart_id']
+                return redirect('order_confirmation')
+        else:
+            form = OrderCreateForm()
+        return render(request, 'core.order_confirmation.html',{
+            "cart":cart,
+            "form":form
+        })
+        
+    
