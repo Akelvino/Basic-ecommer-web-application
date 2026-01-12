@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="text-2xl text-indigo-600 font-semibold">confrim order</h1>
+    <div class="shadow-md ">
+        <form method="POST" action="" class="space-y-4 max-w-lg">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="bg-indigo-600 text-white text-center px-4 py-2 rounded-xl mt-3">Place an order</button>
+        </form>
+    </div> 
+    
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Your order has been placed! Below are thedetails.</h2>
+    <h3>Order ID: #</h3>
+    <ul>
+        {% for item in order.items.all %}
+            <li>
+                <strong>{{ item.quantity }}*{{ item.product.price }}</strong>
+                <br>
+                <span>{{ item.price }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+    <p>Total ${{ order.get_total_cost }} </p>
+{% endblock %}

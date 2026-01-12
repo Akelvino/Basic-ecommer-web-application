@@ -59,7 +59,7 @@ def cart_detail(request):
     cart = None
 
     if cart_id:
-        cart = get_object_or_404(Cart, id=cart_id)
+        cart = Cart.objects.filter(id=cart_id).first()
 
     return render(request, 'core/cart-detail.html', {'cart': cart})
 
@@ -73,39 +73,42 @@ def cart_remove(request, product_id):
      return redirect('cart-details')
 
 
-
 def order_created(request):
     cart_id = request.session.get('cart_id')
-    card = None
+    cart = None
 
     if cart_id:
-        cart = Cart.objects.get(id=cart_id)
+        cart = Cart.objects.filter(id=cart_id).first()
 
-        if not cart or not cart.item.exists():
-            return redirect('cart-detail')
+    if not cart or not cart.items.exists():
+        return redirect('cart-detail')
 
-    
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            order = form.save(commit=False)
-            order.save()
-
+            order = form.save()
+            
             for item in cart.items.all():
                 OrderItem.objects.create(
-                    order = order,
-                    product = item.product,
-                    price = item.product.price,
-                    quantity = item.quantity
+                    order=order,
+                    product=item.product,
+                    price=item.product.price,
+                    quantity=item.quantity
                 )
-                cart.delete()
-                del request.session['cart_id']
-                return redirect('order_confirmation')
-        else:
-            form = OrderCreateForm()
-        return render(request, 'core.order_confirmation.html',{
-            "cart":cart,
-            "form":form
-        })
+
+            cart.delete()
+            del request.session['cart_id']
+
+            return redirect('order_confirmation')
+    else:
+        form = OrderCreateForm()
+
+    return render(request, 'core/order_create.html', {
+        'cart': cart,
+        'form': form
+    })
+
         
-    
+def order_confirmation(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'core/order_confirmation.html',{"order":order})   
